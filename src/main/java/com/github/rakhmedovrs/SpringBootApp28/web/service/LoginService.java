@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
  * @author RakhmedovRS
  * @created 27-Feb-20
  */
-@Component()
+@Component
 public class LoginService
 {
 	public boolean validateUser(String userID, String password)
