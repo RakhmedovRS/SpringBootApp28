@@ -3,7 +3,11 @@
 	<title>Simple JSP page</title>
 </head>
 
-<body>${name} here are list of your todo:
-<br>${todos}
+<body>Here are list of ${name} todo:
+	<br/>
+	${todos}
+	<br/>
+	<a href="/add-todo">Add todo</a>
 </body>
+
 </html>
