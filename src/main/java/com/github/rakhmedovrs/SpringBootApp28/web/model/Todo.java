@@ -13,15 +13,15 @@ public class Todo
 	private String user;
 	private String description;
 	private Date targetDate;
-	private boolean isDone;
+	private boolean done;
 
-	public Todo(Integer id, String user, String description, Date targetDate, boolean isDone)
+	public Todo(Integer id, String user, String description, Date targetDate, boolean done)
 	{
 		this.id = id;
 		this.user = user;
 		this.description = description;
 		this.targetDate = targetDate;
-		this.isDone = isDone;
+		this.done = done;
 	}
 
 	public Integer getId()
@@ -66,12 +66,12 @@ public class Todo
 
 	public boolean isDone()
 	{
-		return isDone;
+		return done;
 	}
 
 	public void setDone(boolean done)
 	{
-		isDone = done;
+		this.done = done;
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class Todo
 			.add("user='" + user + "'")
 			.add("description='" + description + "'")
 			.add("targetDate=" + targetDate)
-			.add("isDone=" + isDone)
+			.add("isDone=" + done)
 			.toString();
 	}
 }
