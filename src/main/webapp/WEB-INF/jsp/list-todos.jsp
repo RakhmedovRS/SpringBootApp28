@@ -17,6 +17,7 @@
 			<th>Description</th>
 			<th>Target date</th>
 			<th>Is it done?</th>
+			<th>Delete</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -25,12 +26,13 @@
 				<td>${todo.description}</td>
 				<td>${todo.targetDate}</td>
 				<td>${todo.done}</td>
+				<td><a type="btn" class="btn btn-warning" href="${pageContext.request.contextPath}/delete-todo?id=${todo.id}">Delete</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	<div>
-		<a class="button" href="/add-todo">Add todo</a>
+		<a class="btn btn-default" href="${pageContext.request.contextPath}/add-todo">Add todo</a>
 	</div>
 </div>
 
