@@ -15,6 +15,10 @@ public class Todo
 	private Date targetDate;
 	private boolean done;
 
+	public Todo()
+	{
+	}
+
 	public Todo(Integer id, String user, String description, Date targetDate, boolean done)
 	{
 		this.id = id;

@@ -1,5 +1,6 @@
 package com.github.rakhmedovrs.SpringBootApp28.web.controller;
 
+import com.github.rakhmedovrs.SpringBootApp28.web.model.Todo;
 import com.github.rakhmedovrs.SpringBootApp28.web.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,14 +33,15 @@ public class TodoController
 	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)
 	public String addTodo(ModelMap modelMap)
 	{
+		modelMap.addAttribute("todo",
+			new Todo(0, (String) modelMap.get("name"), "", new Date(), false));
 		return "todo";
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
-	public String addTodo(ModelMap modelMap,
-	                      @RequestParam String description)
+	public String addTodo(ModelMap modelMap, Todo todo)
 	{
-		todoService.add((String) modelMap.get("name"), description, new Date(), false);
+		todoService.add((String) modelMap.get("name"), todo.getDescription(), new Date(), false);
 		return "redirect:/list-todos";
 	}
 
