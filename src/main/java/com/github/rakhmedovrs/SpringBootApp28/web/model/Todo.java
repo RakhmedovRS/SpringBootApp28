@@ -1,6 +1,7 @@
 package com.github.rakhmedovrs.SpringBootApp28.web.model;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.StringJoiner;
 import javax.validation.constraints.Size;
 
@@ -90,5 +91,26 @@ public class Todo
 			.add("targetDate=" + targetDate)
 			.add("isDone=" + done)
 			.toString();
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Todo todo = (Todo) o;
+		return getId().equals(todo.getId());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getId());
 	}
 }

@@ -16,4 +16,8 @@ public interface TodoService
 	void add(String user, String description, Date targetDate, boolean isDone);
 
 	void deleteById(final Integer id);
+
+	Todo getById(final Integer id);
+
+	void update(Todo todo);
 }

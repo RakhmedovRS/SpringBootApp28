@@ -41,9 +41,7 @@ public class TodoController
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
-	public String addTodo(ModelMap modelMap,
-	                      @Valid Todo todo,
-	                      BindingResult result)
+	public String addTodo(ModelMap modelMap, @Valid Todo todo, BindingResult result)
 	{
 		if (result.hasErrors())
 		{
@@ -55,10 +53,29 @@ public class TodoController
 	}
 
 	@RequestMapping(value = "/delete-todo", method = RequestMethod.GET)
-	public String deleteTodo(ModelMap modelMap,
-	                         @RequestParam Integer id)
+	public String deleteTodo(ModelMap modelMap, @RequestParam Integer id)
 	{
 		todoService.deleteById(id);
+		return "redirect:/list-todos";
+	}
+
+	@RequestMapping(value = "/update-todo", method = RequestMethod.GET)
+	public String showUpdateTodoPage(ModelMap modelMap, @RequestParam Integer id)
+	{
+		Todo todo = todoService.getById(id);
+		modelMap.put("todo", todo);
+		return "todo";
+	}
+
+	@RequestMapping(value = "/update-todo", method = RequestMethod.POST)
+	public String updateTodo(ModelMap modelMap, @Valid Todo todo, BindingResult result)
+	{
+		if (result.hasErrors())
+		{
+			return "todo";
+		}
+		todo.setUser((String) modelMap.get("name"));
+		todoService.update(todo);
 		return "redirect:/list-todos";
 	}
 }

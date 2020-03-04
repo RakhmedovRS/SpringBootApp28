@@ -42,4 +42,17 @@ public class InMemoryTodoService implements TodoService
 	{
 		todos.removeIf(todo -> todo.getId().equals(id));
 	}
+
+	@Override
+	public Todo getById(Integer id)
+	{
+		return todos.stream().filter(todo -> todo.getId().equals(id)).findFirst().orElse(null);
+	}
+
+	@Override
+	public void update(Todo newTodo)
+	{
+		todos.remove(newTodo);
+		todos.add(newTodo);
+	}
 }

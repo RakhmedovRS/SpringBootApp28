@@ -9,6 +9,7 @@
 <body>
 <div class="container">
 	<form:form method="post" modelAttribute="todo">
+		<form:hidden path="id"/>
 		<fieldset class="form-group">
 			<form:label path="description">Description:</form:label>
 			<form:input path="description"
