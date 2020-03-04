@@ -2,6 +2,7 @@ package com.github.rakhmedovrs.SpringBootApp28.web.model;
 
 import java.util.Date;
 import java.util.StringJoiner;
+import javax.validation.constraints.Size;
 
 /**
  * @author RakhmedovRS
@@ -11,6 +12,7 @@ public class Todo
 {
 	private Integer id;
 	private String user;
+	@Size(min = 10, message = "Enter at least 10 characters")
 	private String description;
 	private Date targetDate;
 	private boolean done;

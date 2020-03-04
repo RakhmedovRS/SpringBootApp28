@@ -15,6 +15,7 @@
 			            name="description" type="text"
 			            class="form-control"
 			            required="required"/>
+			<form:errors path="description" cssClass="text-warning"/>
 		</fieldset>
 		<button type="submit" class="btn btn-success">Add</button>
 	</form:form>
