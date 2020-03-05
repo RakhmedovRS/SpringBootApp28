@@ -21,6 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<bootstrap.version>3.3.6</bootstrap.version>
+		<bootstrap.datepicker.version>1.0.1</bootstrap.datepicker.version>
 		<jquery.version>1.9.1</jquery.version>
 	</properties>
 
@@ -64,6 +65,12 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>${bootstrap.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-datepicker</artifactId>
+			<version>${bootstrap.datepicker.version}</version>
 		</dependency>
 
 		<dependency>

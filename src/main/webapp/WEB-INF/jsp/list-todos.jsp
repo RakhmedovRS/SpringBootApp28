@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:useBean id="name" scope="session" type="java.lang.String"/>
 <jsp:useBean id="todos" scope="request" type="java.util.List"/>
 <html>
@@ -25,7 +26,7 @@
 		<c:forEach items="${todos}" var="todo">
 			<tr>
 				<td>${todo.description}</td>
-				<td>${todo.targetDate}</td>
+				<td><fmt:formatDate value="${todo.targetDate}" pattern="dd/MM/yyyy"/></td>
 				<td>${todo.done}</td>
 				<td><a type="btn" class="btn btn-success" href="${pageContext.request.contextPath}/update-todo?id=${todo.id}">Update</a></td>
 				<td><a type="btn" class="btn btn-warning" href="${pageContext.request.contextPath}/delete-todo?id=${todo.id}">Delete</a></td>
