@@ -1,15 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<jsp:useBean id="name" scope="session" type="java.lang.String"/>
-<jsp:useBean id="todos" scope="request" type="java.util.List"/>
-<html>
-<head>
-	<title>Todos' for ${name}</title>
-	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<%@include file="common/header.jspf" %>
+<%@include file="common/navigation.jspf" %>
 
-<body>
 <div class="container">
 	<table class="table table-striped">
 		<caption>Your todo's are</caption>
@@ -39,9 +30,4 @@
 	</div>
 </div>
 
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-</body>
-
-</html>
+<%@include file="common/footer.jspf" %>
