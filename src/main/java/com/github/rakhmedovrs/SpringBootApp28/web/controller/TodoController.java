@@ -22,6 +22,10 @@ import javax.validation.Valid;
 @SessionAttributes("name")
 public class TodoController
 {
+	private static final String TODO_PAGE = "todo";
+	private static final String LIST_TODO_PAGE = "list-todos";
+	private static final String REDIRECT_LIST_TODO_PAGE = "redirect:/list-todos";
+
 	@Autowired
 	TodoService todoService;
 
@@ -35,16 +39,16 @@ public class TodoController
 	@RequestMapping(value = "/list-todos", method = RequestMethod.GET)
 	public String getList(ModelMap modelMap)
 	{
-		modelMap.put("todos", todoService.getByUser((String) modelMap.get("name")));
-		return "list-todos";
+		modelMap.put("todos", todoService.getByUser(getLoggedInUserName(modelMap)));
+		return LIST_TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)
 	public String addTodo(ModelMap modelMap)
 	{
 		modelMap.addAttribute("todo",
-			new Todo(0, (String) modelMap.get("name"), "Default description", new Date(), false));
-		return "todo";
+			new Todo(0, getLoggedInUserName(modelMap), "Default description", new Date(), false));
+		return TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
@@ -52,18 +56,18 @@ public class TodoController
 	{
 		if (result.hasErrors())
 		{
-			return "todo";
+			return TODO_PAGE;
 		}
 
-		todoService.add((String) modelMap.get("name"), todo.getDescription(), new Date(), false);
-		return "redirect:/list-todos";
+		todoService.add(getLoggedInUserName(modelMap), todo.getDescription(), new Date(), false);
+		return REDIRECT_LIST_TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/delete-todo", method = RequestMethod.GET)
 	public String deleteTodo(ModelMap modelMap, @RequestParam Integer id)
 	{
 		todoService.deleteById(id);
-		return "redirect:/list-todos";
+		return REDIRECT_LIST_TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/update-todo", method = RequestMethod.GET)
@@ -71,7 +75,7 @@ public class TodoController
 	{
 		Todo todo = todoService.getById(id);
 		modelMap.put("todo", todo);
-		return "todo";
+		return TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/update-todo", method = RequestMethod.POST)
@@ -79,10 +83,15 @@ public class TodoController
 	{
 		if (result.hasErrors())
 		{
-			return "todo";
+			return TODO_PAGE;
 		}
-		todo.setUser((String) modelMap.get("name"));
+		todo.setUser(getLoggedInUserName(modelMap));
 		todoService.update(todo);
-		return "redirect:/list-todos";
+		return REDIRECT_LIST_TODO_PAGE;
+	}
+
+	private String getLoggedInUserName(ModelMap modelMap)
+	{
+		return (String) modelMap.get("name");
 	}
 }
