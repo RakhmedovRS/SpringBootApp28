@@ -4,11 +4,16 @@ import com.github.rakhmedovrs.SpringBootApp28.web.model.Todo;
 import com.github.rakhmedovrs.SpringBootApp28.web.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +24,6 @@ import javax.validation.Valid;
  * @created 28-Feb-20
  */
 @Controller
-@SessionAttributes("name")
 public class TodoController
 {
 	private static final String TODO_PAGE = "todo";
@@ -39,7 +43,7 @@ public class TodoController
 	@RequestMapping(value = "/list-todos", method = RequestMethod.GET)
 	public String getList(ModelMap modelMap)
 	{
-		modelMap.put("todos", todoService.getByUser(getLoggedInUserName(modelMap)));
+		modelMap.put("todos", todoService.getByUser(getLoggedInUserName()));
 		return LIST_TODO_PAGE;
 	}
 
@@ -47,7 +51,7 @@ public class TodoController
 	public String addTodo(ModelMap modelMap)
 	{
 		modelMap.addAttribute("todo",
-			new Todo(0, getLoggedInUserName(modelMap), "Default description", new Date(), false));
+			new Todo(0, getLoggedInUserName(), "Default description", new Date(), false));
 		return TODO_PAGE;
 	}
 
@@ -59,7 +63,7 @@ public class TodoController
 			return TODO_PAGE;
 		}
 
-		todoService.add(getLoggedInUserName(modelMap), todo.getDescription(), new Date(), false);
+		todoService.add(getLoggedInUserName(), todo.getDescription(), new Date(), false);
 		return REDIRECT_LIST_TODO_PAGE;
 	}
 
@@ -85,13 +89,18 @@ public class TodoController
 		{
 			return TODO_PAGE;
 		}
-		todo.setUser(getLoggedInUserName(modelMap));
+		todo.setUser(getLoggedInUserName());
 		todoService.update(todo);
 		return REDIRECT_LIST_TODO_PAGE;
 	}
 
-	private String getLoggedInUserName(ModelMap modelMap)
+	private String getLoggedInUserName()
 	{
-		return (String) modelMap.get("name");
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails)
+		{
+			return ((UserDetails) principal).getUsername();
+		}
+		return principal.toString();
 	}
 }
