@@ -3,14 +3,20 @@ package com.github.rakhmedovrs.SpringBootApp28.web.model;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 /**
  * @author RakhmedovRS
  * @created 28-Feb-20
  */
+@Entity(name = "Todo")
 public class Todo
 {
+	@Id
+	@GeneratedValue
 	private Integer id;
 	private String user;
 	@Size(min = 10, message = "Enter at least 10 characters")
