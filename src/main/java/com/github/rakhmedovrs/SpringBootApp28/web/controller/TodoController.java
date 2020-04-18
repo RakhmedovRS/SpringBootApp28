@@ -1,6 +1,7 @@
 package com.github.rakhmedovrs.SpringBootApp28.web.controller;
 
 import com.github.rakhmedovrs.SpringBootApp28.web.model.Todo;
+import com.github.rakhmedovrs.SpringBootApp28.web.service.TodoRepository;
 import com.github.rakhmedovrs.SpringBootApp28.web.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -33,6 +34,9 @@ public class TodoController
 	@Autowired
 	TodoService todoService;
 
+	@Autowired
+	TodoRepository repository;
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder)
 	{
@@ -43,7 +47,8 @@ public class TodoController
 	@RequestMapping(value = "/list-todos", method = RequestMethod.GET)
 	public String getList(ModelMap modelMap)
 	{
-		modelMap.put("todos", todoService.getByUser(getLoggedInUserName()));
+//		modelMap.put("todos", todoService.getByUser(getLoggedInUserName()));
+		modelMap.put("todos", repository.findByUser(getLoggedInUserName()));
 		return LIST_TODO_PAGE;
 	}
 
@@ -63,21 +68,25 @@ public class TodoController
 			return TODO_PAGE;
 		}
 
-		todoService.add(getLoggedInUserName(), todo.getDescription(), new Date(), false);
+		todo.setUser(getLoggedInUserName());
+		repository.save(todo);
+//		todoService.add(getLoggedInUserName(), todo.getDescription(), new Date(), false);
 		return REDIRECT_LIST_TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/delete-todo", method = RequestMethod.GET)
 	public String deleteTodo(ModelMap modelMap, @RequestParam Integer id)
 	{
-		todoService.deleteById(id);
+//		todoService.deleteById(id);
+		repository.deleteById(id);
 		return REDIRECT_LIST_TODO_PAGE;
 	}
 
 	@RequestMapping(value = "/update-todo", method = RequestMethod.GET)
 	public String showUpdateTodoPage(ModelMap modelMap, @RequestParam Integer id)
 	{
-		Todo todo = todoService.getById(id);
+//		Todo todo = todoService.getById(id);
+		Todo todo = repository.getOne(id);
 		modelMap.put("todo", todo);
 		return TODO_PAGE;
 	}
@@ -90,7 +99,8 @@ public class TodoController
 			return TODO_PAGE;
 		}
 		todo.setUser(getLoggedInUserName());
-		todoService.update(todo);
+//		todoService.update(todo);
+		repository.save(todo);
 		return REDIRECT_LIST_TODO_PAGE;
 	}
 
